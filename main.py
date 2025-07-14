@@ -1,6 +1,7 @@
 import requests
+from plyer import notification
 
-print("Checking course page at https://www.udemy.com/course/automate/")
+# Checking course page at https://www.udemy.com/course/automate/
 response = requests.get("https://www.udemy.com/api-2.0/courses/automate/?fields[course]=price,discount_price,is_paid")
 
 if response.status_code == 200:
@@ -8,12 +9,23 @@ if response.status_code == 200:
 
     if data["discount_price"] is not None:
         discountPercentage = round((data["price"] - data["discount_price"]) / data["price"] * 100, 2)
-        print("Original price: ", data["price"])
-        print("Discounted price: ", data["discount_price"])
-        print("Discount percentage: ", discountPercentage, "%")
+        notification.notify(
+            title = "Udemy Python Automation Discount Alert",
+            message = "Discounted to " + data["discount_price"] + " that's " + discountPercentage + "% off!",
+            timeout = 10
+        )
     else:
-        print("Price: ", data["price"])
-        print("No discount available")
+        notification.notify(
+            title = "Udemy Python Automation Discount Alert",
+            message = "No discount available :( the price is: " + data["price"],
+            timeout = 10
+        )
 
 else:
+    # Printing the error code to console if needed
     print("Failed to fetch course info:", response.status_code)
+    notification.notify(
+            title = "Udemy Python Automation Discount Alert",
+            message = "Failed to fetch course info:" + response.status_code,
+            timeout = 10
+        )
