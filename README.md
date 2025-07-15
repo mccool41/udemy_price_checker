@@ -19,7 +19,7 @@ A Python script that checks if [this Udemy course](https://www.udemy.com/course/
 
 1. Clone this repo:
    ```bash
-   git clone https://github.com/mccool41/price_checker.git
+   git clone https://github.com/mccool41/udemy_price_checker.git
 2. Install Requirements:
    ```bash
    pip install requests
@@ -41,7 +41,7 @@ A Python script that checks if [this Udemy course](https://www.udemy.com/course/
 ## 🔐 Notes
 🔇 Selecting "launch_silent.vbs" instead of the "run_price_checker.bat" in the Windows Task Scheduler suppresses the Command Prompt popup why the Python script is running.
 
-Notifications use PowerShell to call Windows' native toast system.
+Notifications use PowerShell to call Windows native toast system.
 
 ---
 
