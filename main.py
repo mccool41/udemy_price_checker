@@ -1,5 +1,6 @@
 import requests
 import subprocess
+import time
 
 def runNotification(title, message):
     powershell_command = f'''
@@ -16,25 +17,33 @@ def runNotification(title, message):
     '''
     subprocess.run(["powershell", "-Command", powershell_command])
 
-# Checking course page at https://www.udemy.com/course/automate/
-response = requests.get("https://www.udemy.com/api-2.0/courses/automate/?fields[course]=price,discount_price,is_paid")
+def check_udemy_price():
+    # Checking course page at https://www.udemy.com/course/automate/
+    response = requests.get("https://www.udemy.com/api-2.0/courses/automate/?fields[course]=price,discount_price,is_paid")
 
-if response.status_code == 200:
-    data = response.json()
+    if response.status_code == 200:
+        data = response.json()
 
-    if data["discount_price"] is not None:
-        discountPercentage = round((data["price"] - data["discount_price"]) / data["price"] * 100, 2)
-        title = "Udemy Python Automation on Sale Now!"
-        message = "The course is " + data["price"] + " that's " + discountPercentage + "% off!"
+        if data["discount_price"] is not None:
+            originalPrice = float(data["price"].replace("£", ""))
+            discountPrice = float(data["discount_price"]["amount"])
+            discountPercentage = round((originalPrice - discountPrice) / originalPrice * 100, 2)
+            discountPriceStr = data["discount_price"]["price_string"]
+            title = "Udemy Python Automation on Sale Now!"
+            message = "The course is " + discountPriceStr + " that's " + str(discountPercentage) + "% off!"
+            runNotification(title, message)
+            return True
+
+        else:
+            return False # not on sale, continue checking
 
     else:
-        title = "Udemy Python Automation isn't on Sale :("
-        message = "The course is " + data["price"] + " with no discount available."
+        title = "Udemy Python Automation is Having an Issue :'("
+        message = "Failed to fetch course info: " + response.status_code
+        runNotification(title, message)
+        return True
 
-else:
-    # Printing the error code to console if needed
-    print("Failed to fetch course info:", response.status_code)
-    title = "Udemy Python Automation is Having an Issue :'("
-    message = "Failed to fetch course info: " + response.status_code
-
-runNotification(title, message)
+while True:
+    if check_udemy_price():
+        break  # exit early if on sale or URL issue
+    time.sleep(900)  # 15 minutes
