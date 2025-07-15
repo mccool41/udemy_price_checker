@@ -38,7 +38,7 @@ def check_udemy_price():
             return False # not on sale, continue checking
 
     else:
-        title = "Udemy Python Automation is Having an Issue :'("
+        title = "Udemy Link is Having an Issue"
         message = "Failed to fetch course info: " + response.status_code
         runNotification(title, message)
         return True
