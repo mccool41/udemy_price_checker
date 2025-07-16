@@ -45,7 +45,7 @@ A Python script that checks if any Udemy courses you want are on sale and sends 
 
 1. Edit the udemy_links.txt to include all the Udemy course links you want to keep track of, one link per line
 <p align="center">
-  <img src="images/TextFileExample.png" alt="Screenshot of what the text file would look like with some links inside" />
+  <img src="Images/TextFileExample.png" alt="Screenshot of what the text file would look like with some links inside" />
 </p>
 
 2. That should be it, if you do want to run it manually without adding to the Windows Task Scheduler (skipping option 3 of the install above) then you can and everything should work until you close the process, sign out or it finds a sale (or URL error) for each course you added for it to check 🤞
@@ -68,4 +68,4 @@ Udemy Automate Course on Sale Now!
 **Message:**
 The course is £20 — that's 78.95% off!
 
-![Screenshot of what the alerts look like in the action centre](images/Demo.png)
+![Screenshot of what the alerts look like in the action centre](Images/Demo.png)
