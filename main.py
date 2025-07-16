@@ -12,8 +12,7 @@ def run_notification(title, message):
     $text.Item(0).AppendChild($xml.CreateTextNode("{title}")) > $null
     $text.Item(1).AppendChild($xml.CreateTextNode("{message}")) > $null
     $toast = [Windows.UI.Notifications.ToastNotification]::new($xml)
-    $appId = "Udemy Price Checker"
-    $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier($appId)
+    $notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Udemy Price Checker")
     $notifier.Show($toast)
     '''
     subprocess.run(["powershell", "-Command", powershell_command])
